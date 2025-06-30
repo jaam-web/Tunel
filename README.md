@@ -1,6 +1,6 @@
-# Instrucciones para Crear una Cuenta y un Dominio Gratuito en Cloudflare
+# Instrucciones para Crear una Cuenta y Obtener un Subdominio Gratuito en Cloudflare
 
-Este documento te guiará paso a paso para crear una cuenta en Cloudflare y obtener un dominio gratuito.
+Este documento te guiará paso a paso para crear una cuenta en Cloudflare y obtener un subdominio gratuito.
 
 ## Paso 1: Crear una Cuenta en Cloudflare
 
@@ -16,58 +16,43 @@ Este documento te guiará paso a paso para crear una cuenta en Cloudflare y obte
    - Revisa tu bandeja de entrada y busca un correo electrónico de Cloudflare para confirmar tu dirección de correo electrónico.
    - Haz clic en el enlace de confirmación en el correo.
 
-## Paso 2: Obtener un Dominio Gratuito
+## Paso 2: Crear un Subdominio Gratuito
 
-### Opción 1: Usar un Dominio Gratuito de Freenom
+### Usar Cloudflare Workers para Crear un Subdominio
 
-1. **Visita Freenom**:
-   - Abre una nueva pestaña y ve a [Freenom](https://www.freenom.com/).
+1. **Acceder al Panel de Control**:
+   - Inicia sesión en tu cuenta de Cloudflare.
 
-2. **Buscar un Dominio**:
-   - En la página principal, busca un nombre de dominio que te gustaría registrar.
-   - Asegúrate de seleccionar una extensión gratuita como `.tk`, `.ml`, `.ga`, `.cf`, o `.gq`.
-
-3. **Registrar el Dominio**:
-   - Una vez que encuentres un dominio disponible, haz clic en **Get it Now** (Consíguelo ahora).
-   - Haz clic en **Checkout** (Pagar) para proceder.
-
-4. **Crear una Cuenta en Freenom**:
-   - Si no tienes una cuenta en Freenom, se te pedirá que crees una. Completa el formulario con tu información.
-   - Acepta los términos y condiciones y haz clic en **Complete Order** (Completar pedido).
-
-5. **Configurar el Dominio**:
-   - Ve a **My Domains** (Mis dominios) en Freenom.
-   - Haz clic en **Manage Domain** (Administrar dominio) junto al dominio que registraste.
-   - Ve a la pestaña **Management Tools** (Herramientas de gestión) y selecciona **Nameservers** (Servidores de nombres).
-   - Cambia a **Use custom nameservers** (Usar servidores de nombres personalizados) e ingresa los servidores de nombres de Cloudflare (los obtendrás en el siguiente paso).
-
-### Opción 2: Usar un Dominio de Cloudflare (si ya tienes uno)
-
-Si ya tienes un dominio registrado en otro lugar, puedes usarlo en Cloudflare. Solo necesitarás cambiar los servidores de nombres en tu registrador para que apunten a Cloudflare.
-
-## Paso 3: Agregar el Dominio a Cloudflare
-
-1. **Volver a Cloudflare**:
-   - Regresa a la pestaña de Cloudflare y haz clic en **Add a Site** (Agregar un sitio).
-
-2. **Ingresar el Dominio**:
-   - Escribe el dominio que registraste (por ejemplo, `tudominio.tk`) y haz clic en **Add Site** (Agregar sitio).
+2. **Agregar un Sitio**:
+   - Haz clic en **Add a Site** (Agregar un sitio).
+   - Introduce un nombre de subdominio, por ejemplo, `tusubdominio.cloudflareworkers.com`. (Ten en cuenta que debes usar un nombre único y que no esté en uso).
+   - Haz clic en **Add Site** (Agregar sitio).
 
 3. **Seleccionar un Plan**:
    - Selecciona el plan gratuito y haz clic en **Confirm Plan** (Confirmar plan).
 
-4. **Configurar los Servidores de Nombres**:
-   - Cloudflare te proporcionará dos servidores de nombres. Copia esta información.
-   - Regresa a Freenom y pega los servidores de nombres en la sección de **Nameservers**.
+4. **Configurar el Subdominio**:
+   - Cloudflare te proporcionará configuraciones de DNS. Puedes omitir esta parte si solo deseas usar Cloudflare Workers.
+   - Haz clic en **Continue** (Continuar) para avanzar.
 
-5. **Finalizar la Configuración**:
-   - Haz clic en **Change Nameservers** (Cambiar servidores de nombres) en Freenom.
-   - Regresa a Cloudflare y haz clic en **Done, Check Nameservers** (Listo, verificar servidores de nombres).
+5. **Crear un Worker**:
+   - En el panel de control de Cloudflare, ve a la sección **Workers**.
+   - Haz clic en **Create a Service** (Crear un servicio).
+   - Asigna un nombre a tu worker y haz clic en **Next** (Siguiente).
 
-6. **Esperar la Propagación**:
-   - Puede tardar unos minutos en propagarse. Una vez que Cloudflare confirme que los servidores de nombres están configurados correctamente, podrás usar tu dominio.
+6. **Configurar el Worker**:
+   - Puedes usar el editor en línea para escribir código o simplemente usar la plantilla predeterminada.
+   - Haz clic en **Save and Deploy** (Guardar y desplegar) para activar tu worker.
 
-## Paso 4: Obtener el API Token
+7. **Asignar un Subdominio al Worker**:
+   - Después de crear el worker, ve a la sección **Settings** (Configuraciones) del worker.
+   - Busca la opción **Triggers** (Disparadores) y selecciona **Add Route** (Agregar ruta).
+   - Escribe el subdominio que deseas usar, por ejemplo, `tusubdominio.cloudflareworkers.com/*`.
+   - Haz clic en **Save** (Guardar).
+
+## Paso 3: Obtener el API Token (Opcional)
+
+Si planeas usar la API de Cloudflare para automatizar tareas, puedes crear un API Token.
 
 1. **Acceder a Mi Perfil**:
    - En el panel de Cloudflare, haz clic en tu perfil en la esquina superior derecha y selecciona **My Profile** (Mi perfil).
@@ -75,12 +60,12 @@ Si ya tienes un dominio registrado en otro lugar, puedes usarlo en Cloudflare. S
 2. **Crear un API Token**:
    - Ve a la pestaña **API Tokens**.
    - Haz clic en **Create Token** (Crear token).
-   - Selecciona **Edit Cloudflare Workers** o crea un token personalizado con los permisos necesarios (Zone.Zone, Zone.DNS, Account.Tunnel).
+   - Selecciona **Edit Cloudflare Workers** o crea un token personalizado con los permisos necesarios.
    - Haz clic en **Continue to summary** (Continuar al resumen) y luego en **Create Token** (Crear token).
    - Guarda el token en un lugar seguro.
 
 ## Conclusión
 
-Ahora has creado una cuenta en Cloudflare, registrado un dominio gratuito y obtenido un API Token. Puedes usar esta información para configurar túneles y otros servicios en Cloudflare.
+Ahora has creado una cuenta en Cloudflare y obtenido un subdominio gratuito utilizando Cloudflare Workers. Puedes usar este subdominio para tus aplicaciones y servicios.
 
 Si tienes más preguntas o necesitas ayuda adicional, ¡no dudes en preguntar!
